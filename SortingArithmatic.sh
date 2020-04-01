@@ -15,3 +15,7 @@ echo "Result 2 : "$resultExp2
 #Compute addition and substraction
 resultExp3=$(( c + a / b ))
 echo "Result 3 : "$resultExp3
+
+#Compute mod and addition
+resultExp4=$(( a % b + c ))
+echo "Result 4  ; "$resultExp4
