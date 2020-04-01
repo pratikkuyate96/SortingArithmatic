@@ -1,3 +1,8 @@
+#!/bin/bash -x
+
+#Constant
+ARRAY_LENGTH=4
+
 #Read value a, b, c
 read -p "Enter three values : " a b c
 echo "Three values are : " $a $b $c
@@ -33,4 +38,23 @@ do
 	((index++))
 done
 
+#Print array value
 echo "Array" ${expResultArray[@]}
+
+#Sorting array in decending order
+for (( pass=1; pass<=$(($ARRAY_LENGTH - 1 )); pass++ ))
+do
+	for (( index=0;index<=$((ARRAY_LENGTH - pass-1)); index++ ))
+	do
+		greater=$( echo "${expResultArray[index]} < ${expResultArray[index+1]}" | bc -q )
+		if [[ $greater -eq 1 ]]
+		then
+			temp=${expResultArray[index]}
+			expResultArray[index]=${expResultArray[index+1]}
+			expResultArray[index+1]=temp
+		fi
+	done
+done
+
+echo "Array in decending order : "${expResultArray[@]}
+
