@@ -1,5 +1,3 @@
-#!/bin/bash -x
-
 #Read value a, b, c
 read -p "Enter three values : " a b c
 echo "Three values are : " $a $b $c
@@ -23,5 +21,16 @@ expResultDict[exp2]=$resultExp2
 expResultDict[exp3]=$resultExp3
 expResultDict[exp4]=$resultExp4
 
+echo "Show Dictionary"
 echo "Keys : ${!expResultDict[@]}"
 echo "Value : ${expResultDict[@]}"
+
+#Store dictionary into array value
+index=0
+for result in ${expResultDict[@]}
+do
+	expResultArray[((index))]=$result
+	((index++))
+done
+
+echo "Array" ${expResultArray[@]}
