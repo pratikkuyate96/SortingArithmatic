@@ -46,7 +46,7 @@ for (( pass=1; pass<=$(($ARRAY_LENGTH - 1 )); pass++ ))
 do
 	for (( index=0;index<=$((ARRAY_LENGTH - pass-1)); index++ ))
 	do
-		greater=$( echo "${expResultArray[index]} < ${expResultArray[index+1]}" | bc -q )
+		greater=$( echo "${expResultArray[index]} > ${expResultArray[index+1]}" | bc -q )
 		if [[ $greater -eq 1 ]]
 		then
 			temp=${expResultArray[index]}
@@ -56,5 +56,5 @@ do
 	done
 done
 
-echo "Array in decending order : "${expResultArray[@]}
+echo "Array in ascending order : "${expResultArray[@]}
 
