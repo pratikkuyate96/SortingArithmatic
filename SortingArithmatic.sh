@@ -5,17 +5,23 @@ read -p "Enter three values : " a b c
 echo "Three values are : " $a $b $c
 
 #Compute addtion and multiplication
-resultExp1=$(( a + b * c ))
-echo "Result 1 : "$resultExp1
+resultExp1=`echo "scale=3; $a + $b * $c" | bc`
 
 #Compute multiplication and addition
-resultExp2=$(( a * b + c ))
-echo "Result 2 : "$resultExp2
+resultExp2=`echo "scale=3; $a * $b + $c" | bc`
 
 #Compute addition and substraction
-resultExp3=$(( c + a / b ))
-echo "Result 3 : "$resultExp3
+resultExp3=`echo "scale=3; $c + $a / $b" | bc`
 
 #Compute mod and addition
-resultExp4=$(( a % b + c ))
-echo "Result 4  ; "$resultExp4
+resultExp4=`echo "scale=3; $a % $b + $c" | bc`
+
+#Store result in dictionary
+declare -A expResultDict
+expResultDict[exp1]=$resultExp1
+expResultDict[exp2]=$resultExp2
+expResultDict[exp3]=$resultExp3
+expResultDict[exp4]=$resultExp4
+
+echo "Keys : ${!expResultDict[@]}"
+echo "Value : ${expResultDict[@]}"
