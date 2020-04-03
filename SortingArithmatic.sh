@@ -1,5 +1,8 @@
 #!/bin/bash
 
+#Declaration of dictionary
+declare -A expResultDict
+
 #Compute the expressions
 function compute() {
 	resultExp1=`echo "scale=2; $(($a + $b * $c ))" | bc`
