@@ -1,60 +1,51 @@
 #!/bin/bash -x
 
-#Constant
-ARRAY_LENGTH=4
+#Declaration of dictionary and array
+declare -A expResultDict
+declare -a expResultArray
 
-#Read value a, b, c
-read -p "Enter three values : " a b c
-echo "Three values are : " $a $b $c
-
-#Compute addtion and multiplication
-resultExp1=`echo "scale=3; $a + $b * $c" | bc`
-
-#Compute multiplication and addition
-resultExp2=`echo "scale=3; $a * $b + $c" | bc`
-
-#Compute addition and substraction
-resultExp3=`echo "scale=3; $c + $a / $b" | bc`
-
-#Compute mod and addition
-resultExp4=`echo "scale=3; $a % $b + $c" | bc`
+#Compute the expressions
+function computation() {
+	resultExp1=$"$a + $b * $c"
+	resultExp2=$"$a * $b + $c"
+	resultExp3=$"$c + $a / $b"
+	resultExp4=$"a % $b + $c"
+}
 
 #Store result in dictionary
-declare -A expResultDict
-expResultDict[exp1]=$resultExp1
-expResultDict[exp2]=$resultExp2
-expResultDict[exp3]=$resultExp3
-expResultDict[exp4]=$resultExp4
+function dictionary() {
+	expResultDict[exp1]=$resultExp1
+	expResultDict[exp2]=$resultExp2
+	expResultDict[exp3]=$resultExp3
+	expResultDict[exp4]=$resultExp4
+}
 
-echo "Show Dictionary"
-echo "Keys : ${!expResultDict[@]}"
-echo "Value : ${expResultDict[@]}"
-
-#Store dictionary into array value
-index=0
-for result in ${expResultDict[@]}
-do
-	expResultArray[((index))]=$result
-	((index++))
-done
-
-#Print array value
-echo "Array" ${expResultArray[@]}
-
-#Sorting array in decending order
-for (( pass=1; pass<=$(($ARRAY_LENGTH - 1 )); pass++ ))
-do
-	for (( index=0;index<=$((ARRAY_LENGTH - pass-1)); index++ ))
+function array() {
+	for(( number=1; number<=4; number++ ))
 	do
-		greater=$( echo "${expResultArray[index]} > ${expResultArray[index+1]}" | bc -q )
-		if [[ $greater -eq 1 ]]
-		then
-			temp=${expResultArray[index]}
-			expResultArray[index]=${expResultArray[index+1]}
-			expResultArray[index+1]=temp
-		fi
+		expResultArray[$number]={expResultDict[exp$number]}
 	done
-done
+}
 
-echo "Array in ascending order : "${expResultArray[@]}
+#Sort the result of array
+function sortResultOfArray() {
+	for (( number=1; number<=4; number++ ))
+	do
+		echo ${expResultArray[$number]}
+	done | sort $1
+}
 
+function arithmaticComputation() {
+	computation
+	dictionary
+	array
+	echo "Descending order:"
+	sortResultOfArray -rn
+	echo "Ascending order:"
+	sortResultOfArray -n
+}
+
+#Read value a, b, c
+read -p "Enter three value : " a b c
+echo "Three values are : " $a $b $c
+arithmaticComputation
